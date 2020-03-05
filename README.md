@@ -1,10 +1,13 @@
 这个小工具可以帮助你进行网课考勤，任何平台都适用，只用通过简单地复制就可完成考勤并返回报告。
 
-这个小程序是由PotatoStudio工作室编写\n
-网址：www.potatost.xyz\n
-语言：python\n
+这个小程序是由PotatoStudio工作室编写
+
+网址：www.potatost.xyz
+
+语言：python
 
 使用：potatostuser@163.com联系我们
+
 
 
 工具简介：
