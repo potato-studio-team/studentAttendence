@@ -2,7 +2,7 @@
 
 这个小程序是由PotatoStudio工作室编写
 
-网址：www.potatost.xyz
+网址：https://www.potatost.xyz/index.php/2020/03/05/89/
 
 语言：python
 
