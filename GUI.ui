@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>864</width>
-    <height>509</height>
+    <width>997</width>
+    <height>553</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -23,6 +23,20 @@
          <widget class="QLabel" name="label">
           <property name="text">
            <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:16pt;&quot;&gt;请输入评论（包含签到）内容&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLabel" name="label_3">
+          <property name="text">
+           <string>  请输入班级(数字)，eg:一班==1，二班==2</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLineEdit" name="lineEdit">
+          <property name="text">
+           <string/>
           </property>
          </widget>
         </item>
@@ -132,7 +146,17 @@
          </widget>
         </item>
         <item>
-         <widget class="QListView" name="listView"/>
+         <widget class="QLabel" name="label_4">
+          <property name="text">
+           <string>  请输入班级学号最高值(数字) eg:最高为149==49，最高为246==46</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLineEdit" name="lineEdit_2"/>
+        </item>
+        <item>
+         <widget class="QTextEdit" name="textEdit_2"/>
         </item>
         <item>
          <layout class="QHBoxLayout" name="horizontalLayout_3">
@@ -214,22 +238,6 @@
      </layout>
     </item>
     <item>
-     <spacer name="verticalSpacer">
-      <property name="orientation">
-       <enum>Qt::Vertical</enum>
-      </property>
-      <property name="sizeType">
-       <enum>QSizePolicy::Maximum</enum>
-      </property>
-      <property name="sizeHint" stdset="0">
-       <size>
-        <width>20</width>
-        <height>40</height>
-       </size>
-      </property>
-     </spacer>
-    </item>
-    <item>
      <widget class="QPushButton" name="pushButton_3">
       <property name="focusPolicy">
        <enum>Qt::StrongFocus</enum>
@@ -274,7 +282,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>864</width>
+     <width>997</width>
      <height>23</height>
     </rect>
    </property>
