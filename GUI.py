@@ -12,6 +12,7 @@ import sys
 from PyQt5.QtWidgets import QApplication, QWidget, QMainWindow
 import re
 import datetime
+import os
 
 class Ui_MainWindow(object):
 
@@ -143,13 +144,30 @@ class Ui_MainWindow(object):
         self.pushButton_3.clicked.connect(self.QUimain)
 
         self.pushButton_4.setText(_translate("MainWindow", "文件修复"))
+        self.pushButton_4.clicked.connect(self.fileMaker)
+
         self.pushButton_5.setText(_translate("MainWindow", "打开教程"))
         self.pushButton_6.setText(_translate("MainWindow", "打开排除文件"))
         self.menu.setTitle(_translate("MainWindow", "子雨网课考勤"))
         self.menu_2.setTitle(_translate("MainWindow", "开始考勤"))
 
+    # 辅助功能槽函数定义
+    def fileMaker():
+        # 目录判断创建
+        if os.path.exists(place) == 0:
+            os.mkdir(place)
+            result = "创建目录成功\n"
 
-    # 主程序开始
+        filehandle = open("StudentCode/result.txt",'w',encoding="utf-8")
+        filehandle.write("###这里返回统计报告结果###")
+        filehandle.close()
+        result = result + "报告文件创建成功\n"
+
+        filehandle = open("StudentCode/takeLeaveCode.txt",'w',encoding="utf-8")
+        filehandle.close()
+        result = result + "排除文件创建成功\n"
+
+    # 主程序槽函数定义
     def QUimain(self):
         # 获取输入框内容
         grade = int(self.lineEdit.text())
