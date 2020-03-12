@@ -1,10 +1,11 @@
-# -*- coding: utf-8 -*-
-
-# Form implementation generated from reading ui file 'GUI.ui'
-#
-# Created by: PyQt5 UI code generator 5.14.1
-#
-# WARNING! All changes made in this file will be lost!
+#################################################
+# 这是一个由PotatoMan编写的应用于网课考勤的小程序
+# 编写语言:Python 3
+# 图形界面编写:PyQt5
+# 编写时间:2020.3.12
+# 详细说明请打开文件夹中的说明文件
+# 本程序功能:统计网课考勤情况
+#################################################
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 import sys
@@ -31,9 +32,11 @@ class Ui_MainWindow(object):
         self.label_3 = QtWidgets.QLabel(self.centralwidget)
         self.label_3.setObjectName("label_3")
         self.verticalLayout.addWidget(self.label_3)
+
         self.lineEdit = QtWidgets.QLineEdit(self.centralwidget)
         self.lineEdit.setText("")
         self.lineEdit.setObjectName("lineEdit")
+
         self.verticalLayout.addWidget(self.lineEdit)
 
         self.textEdit = QtWidgets.QTextEdit(self.centralwidget)
@@ -65,11 +68,15 @@ class Ui_MainWindow(object):
         self.label_4 = QtWidgets.QLabel(self.centralwidget)
         self.label_4.setObjectName("label_4")
         self.verticalLayout_2.addWidget(self.label_4)
+
         self.lineEdit_2 = QtWidgets.QLineEdit(self.centralwidget)
         self.lineEdit_2.setObjectName("lineEdit_2")
+
         self.verticalLayout_2.addWidget(self.lineEdit_2)
+
         self.textEdit_2 = QtWidgets.QTextEdit(self.centralwidget)
         self.textEdit_2.setObjectName("textEdit_2")
+
         self.verticalLayout_2.addWidget(self.textEdit_2)
         self.horizontalLayout_3 = QtWidgets.QHBoxLayout()
         self.horizontalLayout_3.setObjectName("horizontalLayout_3")
@@ -143,104 +150,83 @@ class Ui_MainWindow(object):
 
 
     # 主程序开始
+    def QUimain(self):
+        # 获取输入框内容
+        grade = int(self.lineEdit.text())
+        aims = int(self.lineEdit_2.text())
+        codeData = str(self.textEdit.toPlainText())
 
-    def readFile(place):
-        with open(place, encoding="utf-8") as f:
-            content = f.read()
-        return content
+        # 正则分析
+        lsCode = re.findall(r"[0-9]{3,3}?", codeData)
+        print(type(lsCode))
+        
+# 考勤分析-------------------------------------------------------------------
 
-    # 读取文件并返回列表格式
-    def readFileLine(place):
-        with open(place, encoding="utf-8") as f:
-            content = f.readlines()
-        return content
+        lsA = aims + 1
+        lsAD = ["#缺席#"]*lsA
+        lsAD[0] = "序号####学号"
 
-    def studentCodeCheck(data, check):
-        check = str(check)
-        ls = re.findall(check, data)
-        return ls
+        print(lsCode)
+        print(type(lsCode))
+        
+        print(grade)
 
-    def studentCodeStatistics(data, aims, grade):
-        aims = aims + 1
-        lis = ["#缺席#"] * aims
-        lis[0] = "序号####学号"
-
-        for i in data:
+        for i in lsCode:
             i = int(i)
             lsi = i - grade * 100
             lsiNot = str(lsi)
             n = "   "
             ii = str(i)
-            lis[lsi] = lsiNot + n + ii
+            lsAD[lsi] = lsiNot + n + ii
 
-        return lis
+# 请假处理--------------------------------------------------------------------
 
-    def absentSearch(list, aims, grade):
-        i = 0
-        ii = 0
-        lsa = ""
-        grade = str(grade)
-        while (i <= aims):
-            if list[i] == "#缺席#":
-                iii = i
-                iii = str(iii)
-                lsa = lsa + iii + ","
-                ii = ii + 1
-            i = i + 1
+        with open("StudentCode/takeLeaveCode.txt", encoding="utf-8") as f:
+            content = f.readlines()
 
-        return lsa
+        takeLeave = content
 
-    def takeLeave(takeLeave, attendance, grade):
         grade = int(grade)
+
         for i in takeLeave:
             i.strip("\n")
             i = int(i)
             i = i - grade * 100
-            attendance[i] = "#请假#"
+            lsAD[i] = "#请假#" 
 
-            # attendance.remove('')
-        return attendance
+# 缺席处理---------------------------------------------------------------------
+        
+        a = 0
+        aa = 0
+        lsAbD = ""
+        grade = str(grade)
 
-    def writeFile(place, data01, data02):
-        filehandle = open(place, 'w', encoding="utf-8")
-        filehandle.write("这是本次考勤的报告")
+        while(a <= aims):
+            if lsAD[a] == "#缺席#":
+                aaa = a
+                aaa = str(aaa)
+                lsAbD = lsAbD + aaa + ","
+                aa = aa + 1
+            a = a + 1
 
-        filehandle.write("\n生成日期\n##")
+# 输出处理---------------------------------------------------------------------
+
+        lsADD = ""
+        for i in lsAD:
+            lsADD = lsADD + "\n" + i
+
         today = datetime.date.today()
         today = str(today)
-        filehandle.write(today)
 
-        filehandle.write("##\n\n签到报告\n")
-        for i in data01:
-            iWr = str(i)
-            iWr = iWr + "\n"
-            filehandle.write(iWr)
+        result = "子雨网课考勤报告\n" + "详细请查看StudentCode/result.txt" + "日期\n" + today + "\n\n考勤统计\n" + lsADD + "\n\n缺席统计\n" + lsAbD
 
-        filehandle.write("\n\n缺席报告\n")
-        for i02 in data02:
-            iWr2 = str(i02)
-            iWr2 = iWr2 + "  "
-            filehandle.write(iWr2)
+        # 写文件
+        filehandle = open("StudentCode/result.txt",'a', encoding="utf-8")
+        filehandle.write(data)
         filehandle.close()
 
-    def QUimain(self):
-        grade = int(input("\n# 请输入班级(数字)\n# eg:一班==1，二班==2\n>>>"))
-        aims = int(input("\n# 请输入班级学号最高值(数字)\n# eg:最高为149==49，最高为246==46\n>>>"))
-        print("\n--分析文件--")
-        codeData = readFile("StudentCode/inputStudentCode.txt")
-        resultCheck = studentCodeCheck(codeData, r'[0-9]{3,3}?')
+        self.textEdit_2.setText(result)
 
-        result = studentCodeStatistics(resultCheck, aims, grade)
-
-        takeLeaveData = readFileLine("StudentCode/takeLeaveCode.txt")
-
-        result = takeLeave(takeLeaveData, result, grade)
-
-        absent = absentSearch(result, aims, grade)
-        print(absent)
-        writeFile("StudentCode/result.txt", result, absent)
-        print("\n###已生成报告，请在StudentCode/result.txt查看")
-        input("\n回车退出软件，谢谢使用")
 
 def main():
     if __name__ == '__main__':
