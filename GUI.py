@@ -154,7 +154,7 @@ class Ui_MainWindow(object):
 
     # 辅助功能槽函数定义
     def fileMaker(self):
-        warning(QWidget parent,title,text,buttons,defaultButton)
+        # self.QMessageBox.warning(self, "是否要修复文件", "文件修复后将替换之前的文件，你确定要继续？", QMessageBox.Yes | QMessageBox.No)
         # 目录判断创建
         dataR = ""
         if os.path.exists("StudentCode") == 0:
