@@ -13,6 +13,7 @@ from PyQt5.QtWidgets import QApplication, QWidget, QMainWindow
 import re
 import datetime
 import os
+import webbrowser
 
 class Ui_MainWindow(object):
 
@@ -221,7 +222,7 @@ class Ui_MainWindow(object):
 
     # 打开官网
     def openWebside(self):
-        webbrowser.open("")
+        webbrowser.open("https://www.potatost.xyz/index.php/2020/03/05/89/")
 
 # ======主程序槽函数定义======================================================
 
