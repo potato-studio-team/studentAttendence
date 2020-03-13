@@ -149,6 +149,7 @@ class Ui_MainWindow(object):
         self.pushButton_3.clicked.connect(self.QUimain)
 
         self.pushButton_4.setText(_translate("MainWindow", "查看官网"))
+        self.pushButton_4.clicked.connect(self.)
 
         self.pushButton_5.setText(_translate("MainWindow", "文件修复"))
         self.pushButton_5.clicked.connect(self.fileMaker)
@@ -214,7 +215,7 @@ class Ui_MainWindow(object):
         # os.system("cd StudentCode")
         place = os.getcwd()
         place = str(place)
-        place = place + "/takeLeaveCode.txt"
+        place = place + r"\StudentCode\takeLeaveCode.txt"
         os.startfile(place)
         self.textEdit_2.setText("已打开文件")
 
