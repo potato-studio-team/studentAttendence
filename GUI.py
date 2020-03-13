@@ -138,7 +138,9 @@ class Ui_MainWindow(object):
         self.pushButton.setText(_translate("MainWindow", "打开输入文件"))
         self.label_2.setText(_translate("MainWindow", "<html><head/><body><p align=\"center\"><span style=\" font-size:16pt;\">此处返回签到信息</span></p></body></html>"))
         self.label_4.setText(_translate("MainWindow", "  请输入班级学号最高值(数字) eg:最高为149==49，最高为246==46"))
+        
         self.pushButton_2.setText(_translate("MainWindow", "打开输出文件"))
+        self.pushButton_2.clicked.connect(self.openResult)
 
         self.pushButton_3.setText(_translate("MainWindow", "开始统计"))
         self.pushButton_3.clicked.connect(self.QUimain)
@@ -172,6 +174,21 @@ class Ui_MainWindow(object):
         dataR = dataR + "排除文件创建成功\n文件修复成功\n"
 
         self.textEdit_2.setText(dataR)
+
+    # 打开报告文件
+    def openResult(self):
+        self.pushButton_2.setText("关闭并保存文件")
+        with open("StudentCode/result.txt", encoding="utf-8") as f:
+            content = f.read()
+
+        self.textEdit_2.setText(content)
+        self.pushButton_3.clicked.connect(self.openResultN)
+
+    def openResultN(self):
+        self.pushButton_2.setText("打开输出文件")
+        filehandle = open("StudentCode/result.txt",'w', encoding="utf-8")
+        filehandle.write(str(self.textEdit_2.toPlainText()))
+        filehandle.close()
 
     # 主程序槽函数定义
     def QUimain(self):
