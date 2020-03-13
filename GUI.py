@@ -135,22 +135,25 @@ class Ui_MainWindow(object):
         MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
         self.label.setText(_translate("MainWindow", "<html><head/><body><p align=\"center\"><span style=\" font-size:16pt;\">请输入评论（包含签到）内容</span></p></body></html>"))
         self.label_3.setText(_translate("MainWindow", "  请输入班级(数字)，eg:一班==1，二班==2"))
-        self.pushButton.setText(_translate("MainWindow", "打开输出文件"))
+        self.pushButton.setText(_translate("MainWindow", "打开排除文件"))
+
         self.label_2.setText(_translate("MainWindow", "<html><head/><body><p align=\"center\"><span style=\" font-size:16pt;\">此处返回签到信息</span></p></body></html>"))
         self.label_4.setText(_translate("MainWindow", "  请输入班级学号最高值(数字) eg:最高为149==49，最高为246==46"))
         
-        self.pushButton_2.setText(_translate("MainWindow", "保存文件"))
+        self.pushButton_2.setText(_translate("MainWindow", "打开输出文件"))
         self.pushButton_2.clicked.connect(self.openResult)
 
         self.pushButton_3.setText(_translate("MainWindow", "开始统计"))
         self.pushButton_3.clicked.connect(self.QUimain)
 
-        self.pushButton_4.setText(_translate("MainWindow", "打开教程"))
+        self.pushButton_4.setText(_translate("MainWindow", "查看官网"))
 
         self.pushButton_5.setText(_translate("MainWindow", "文件修复"))
         self.pushButton_5.clicked.connect(self.fileMaker)
 
-        self.pushButton_6.setText(_translate("MainWindow", "打开排除文件"))
+        self.pushButton_6.setText(_translate("MainWindow", "打开教程"))
+        self.pushButton_6.clicked.connect(self.openTutoriar)
+
         self.menu.setTitle(_translate("MainWindow", "子雨网课考勤"))
         self.menu_2.setTitle(_translate("MainWindow", "开始考勤"))
 
@@ -177,18 +180,31 @@ class Ui_MainWindow(object):
 
     # 打开报告文件
     def openResult(self):
-        self.pushButton_2.setText("保存文件")
+        self.pushButton_2.setText("关闭文件")
         with open("StudentCode/result.txt", encoding="utf-8") as f:
             content = f.read()
 
         self.textEdit_2.setText(content)
-        self.pushButton_2.clicked.connect(self.openResultN)
+        self.pushButton_2.clicked.connect(self.openResultC)
 
-    def saveFileResult(self):
+    def openResultC(self): 
+        self.textEdit_2.setText("")
         self.pushButton_2.setText("打开输出文件")
-        filehandle = open("StudentCode/result.txt",'w', encoding="utf-8")
-        filehandle.write(str(self.textEdit_2.toPlainText()))
-        filehandle.close()
+        self.pushButton_2.clicked.connect(self.openResult)
+
+    # 打开教程文件
+    def openTutoriar(self):
+        self.pushButton_2.setText("关闭文件")
+        with open("about.txt", encoding="utf-8") as f:
+            content = f.read()
+
+        self.textEdit.setText(content)
+        self.pushButton_6.clicked.connect(self.openTutoriarC)
+
+    def openTutoriarC(self): 
+        self.textEdit.setText("")
+        self.pushButton_6.setText("打开教程")
+        self.pushButton_6.clicked.connect(self.openTutoriar)
 
     # 主程序槽函数定义
     def QUimain(self):
