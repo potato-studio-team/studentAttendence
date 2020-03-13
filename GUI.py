@@ -211,9 +211,12 @@ class Ui_MainWindow(object):
 
     # 打开排除文件
     def openTakeLeave(self):
-        os.system("cd StudentCode")
-        os.system("takeLeaveCode.txt")
-        self.textEdit_2.setText()
+        # os.system("cd StudentCode")
+        place = os.getcwd()
+        place = str(place)
+        place = place + "/takeLeaveCode.txt"
+        os.startfile(place)
+        self.textEdit_2.setText("已打开文件")
 
 # ======主程序槽函数定义======================================================
 
