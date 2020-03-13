@@ -135,7 +135,9 @@ class Ui_MainWindow(object):
         MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
         self.label.setText(_translate("MainWindow", "<html><head/><body><p align=\"center\"><span style=\" font-size:16pt;\">请输入评论（包含签到）内容</span></p></body></html>"))
         self.label_3.setText(_translate("MainWindow", "  请输入班级(数字)，eg:一班==1，二班==2"))
+        
         self.pushButton.setText(_translate("MainWindow", "打开排除文件"))
+        self.pushButton.clicked.connect(self.openTakeLeave)
 
         self.label_2.setText(_translate("MainWindow", "<html><head/><body><p align=\"center\"><span style=\" font-size:16pt;\">此处返回签到信息</span></p></body></html>"))
         self.label_4.setText(_translate("MainWindow", "  请输入班级学号最高值(数字) eg:最高为149==49，最高为246==46"))
@@ -205,6 +207,12 @@ class Ui_MainWindow(object):
         self.textEdit.setText("")
         self.pushButton_6.setText("打开教程")
         self.pushButton_6.clicked.connect(self.openTutoriar)
+
+    # 打开排除文件
+    def openTakeLeave(self):
+        os.system("cd StudentCode")
+        os.system("takeLeaveCode.txt")
+        self.textEdit_2.setText()
 
     # 主程序槽函数定义
     def QUimain(self):
