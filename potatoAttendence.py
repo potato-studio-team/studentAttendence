@@ -18,8 +18,13 @@ import webbrowser
 class Ui_MainWindow(object):
 
     def setupUi(self, MainWindow):
-        MainWindow.setObjectName("MainWindow")
+        MainWindow.setObjectName("子雨网课考勤")
         MainWindow.resize(997, 553)
+
+        icon = QtGui.QIcon()
+        icon.addPixmap(QtGui.QPixmap("logoMain.ico"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        MainWindow.setWindowIcon(icon)
+
         self.centralwidget = QtWidgets.QWidget(MainWindow)
         self.centralwidget.setObjectName("centralwidget")
         self.verticalLayout_4 = QtWidgets.QVBoxLayout(self.centralwidget)
