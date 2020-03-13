@@ -135,11 +135,11 @@ class Ui_MainWindow(object):
         MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
         self.label.setText(_translate("MainWindow", "<html><head/><body><p align=\"center\"><span style=\" font-size:16pt;\">请输入评论（包含签到）内容</span></p></body></html>"))
         self.label_3.setText(_translate("MainWindow", "  请输入班级(数字)，eg:一班==1，二班==2"))
-        self.pushButton.setText(_translate("MainWindow", "打开输入文件"))
+        self.pushButton.setText(_translate("MainWindow", "打开输出文件"))
         self.label_2.setText(_translate("MainWindow", "<html><head/><body><p align=\"center\"><span style=\" font-size:16pt;\">此处返回签到信息</span></p></body></html>"))
         self.label_4.setText(_translate("MainWindow", "  请输入班级学号最高值(数字) eg:最高为149==49，最高为246==46"))
         
-        self.pushButton_2.setText(_translate("MainWindow", "打开输出文件"))
+        self.pushButton_2.setText(_translate("MainWindow", "保存文件"))
         self.pushButton_2.clicked.connect(self.openResult)
 
         self.pushButton_3.setText(_translate("MainWindow", "开始统计"))
@@ -177,14 +177,14 @@ class Ui_MainWindow(object):
 
     # 打开报告文件
     def openResult(self):
-        self.pushButton_2.setText("关闭并保存文件")
+        self.pushButton_2.setText("保存文件")
         with open("StudentCode/result.txt", encoding="utf-8") as f:
             content = f.read()
 
         self.textEdit_2.setText(content)
-        self.pushButton_3.clicked.connect(self.openResultN)
+        self.pushButton_2.clicked.connect(self.openResultN)
 
-    def openResultN(self):
+    def saveFileResult(self):
         self.pushButton_2.setText("打开输出文件")
         filehandle = open("StudentCode/result.txt",'w', encoding="utf-8")
         filehandle.write(str(self.textEdit_2.toPlainText()))
@@ -259,7 +259,7 @@ class Ui_MainWindow(object):
         today = datetime.date.today()
         today = str(today)
 
-        result = "子雨网课考勤报告\n" + "详细请查看StudentCode/result.txt" + "日期\n" + today + "\n\n考勤统计\n" + lsADD + "\n\n缺席统计\n" + lsAbD
+        result = "\n\n子雨网课考勤报告\n" + "详细请查看StudentCode/result.txt" + "日期\n" + today + "\n\n考勤统计\n" + lsADD + "\n\n缺席统计\n" + lsAbD
 
         # 写文件
         filehandle = open("StudentCode/result.txt",'a', encoding="utf-8")
