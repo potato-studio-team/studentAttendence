@@ -205,7 +205,7 @@ class Ui_MainWindow(object):
     # 打开教程文件
     def openTutoriar(self):
         self.pushButton_6.setText("关闭文件")
-        with open("about.txt", encoding="ANSI") as f:
+        with open("about.txt", encoding="utf-8") as f:
             content = f.read()
 
         self.textEdit.setText(content)
