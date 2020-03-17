@@ -138,7 +138,7 @@ class Ui_MainWindow(object):
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
-        MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
+        MainWindow.setWindowTitle(_translate("MainWindow", "子雨网课考勤"))
         self.label.setText(_translate("MainWindow", "<html><head/><body><p align=\"center\"><span style=\" font-size:16pt;\">请输入评论（包含签到）内容</span></p></body></html>"))
         self.label_3.setText(_translate("MainWindow", "  请输入班级(数字)，eg:一班==1，二班==2"))
         
@@ -165,6 +165,20 @@ class Ui_MainWindow(object):
 
         self.menu.setTitle(_translate("MainWindow", "子雨网课考勤"))
         self.menu_2.setTitle(_translate("MainWindow", "开始考勤"))
+
+# 配置读取-------------------------------------------------------------------
+
+        filehandle = open("configuration.txt",'a', encoding="utf-8")
+        filehandle.close()
+
+        with open("configuration.txt", encoding="utf-8") as f:
+            ls = f.readlines()
+
+        grade = ls[0]
+        aims = ls[1]
+
+        self.lineEdit.setText(grade)
+        self.lineEdit_2.setText(aims)
 
 # ======辅助功能槽函数定义====================================================
 
@@ -232,6 +246,11 @@ class Ui_MainWindow(object):
 # ======主程序槽函数定义======================================================
 
     def QUimain(self):
+
+        err = 0 # 定义错误变量
+
+# 信息读取-------------------------------------------------------------------
+
         # 获取输入框内容
         grade = int(self.lineEdit.text())
         aims = int(self.lineEdit_2.text())
@@ -239,22 +258,26 @@ class Ui_MainWindow(object):
 
         # 正则分析
         lsCode = re.findall(r"[0-9]{3,3}?", codeData)
-        print(type(lsCode))
         
 # 考勤分析-------------------------------------------------------------------
-
+         
         lsA = aims + 1
         lsAD = ["#缺席#"]*lsA
         lsAD[0] = "序号####学号"
 
-        print(lsCode)
-        print(type(lsCode))
-        
-        print(grade)
-
         for i in lsCode:
             i = int(i)
             lsi = i - grade * 100
+
+            # 错误排除
+            if lsi > grade * 100:
+                err = [1,"!!!输入错误，学号中年级大于预定值!!!"]
+                break
+
+            elif lsi > aims:
+                err = [1,"!!!输入错误，学号最高位大于预定值!!!"]
+                break
+
             lsiNot = str(lsi)
             n = "   "
             ii = str(i)
@@ -262,6 +285,10 @@ class Ui_MainWindow(object):
 
 # 请假处理--------------------------------------------------------------------
 
+        filehandle = open("StudentCode/takeLeaveCode.txt",'a', encoding="utf-8")
+        filehandle.write("none")
+        filehandle.close()
+        
         with open("StudentCode/takeLeaveCode.txt", encoding="utf-8") as f:
             content = f.readlines()
 
@@ -299,10 +326,14 @@ class Ui_MainWindow(object):
         today = datetime.date.today()
         today = str(today)
 
-        result = "\n\n子雨网课考勤报告\n" + "详细请查看StudentCode/result.txt" + "日期\n" + today + "\n\n考勤统计\n" + lsADD + "\n\n缺席统计\n" + lsAbD
+        result = "\n子雨网课考勤报告\n" + "详细请查看StudentCode/result.txt\n\n" + "日期\n" + today + "\n\n考勤统计\n" + lsADD + "\n\n缺席统计\n" + lsAbD
+
+        # 错误判断
+        if err[0] == 1:
+            result = err[1]
 
         # 写文件
-        filehandle = open("StudentCode/result.txt",'a', encoding="utf-8")
+        filehandle = open("StudentCode/result.txt",'w', encoding="utf-8")
         filehandle.write(result)
         filehandle.close()
 
