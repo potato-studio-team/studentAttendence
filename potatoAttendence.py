@@ -9,6 +9,7 @@
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 import sys
+from pathlib import Path
 from PyQt5.QtWidgets import QApplication, QWidget, QMainWindow
 import re
 import datetime
@@ -168,17 +169,19 @@ class Ui_MainWindow(object):
 
 # 配置读取-------------------------------------------------------------------
 
-        filehandle = open("configuration.txt",'a', encoding="utf-8")
-        filehandle.close()
-
-        with open("configuration.txt", encoding="utf-8") as f:
-            ls = f.readlines()
-
-        grade = ls[0]
-        aims = ls[1]
-
-        self.lineEdit.setText(grade)
-        self.lineEdit_2.setText(aims)
+        myFile = Path("configuration.txt")
+        if myFile.exists():
+            filehandle = open("configuration.txt",'a', encoding="utf-8")
+            filehandle.close()
+    
+            with open("configuration.txt", encoding="utf-8") as f:
+                ls = f.readlines()
+            
+            grade = ls[0]
+            aims = ls[1]
+    
+            self.lineEdit.setText(grade)
+            self.lineEdit_2.setText(aims)
 
 # ======辅助功能槽函数定义====================================================
 
@@ -247,7 +250,7 @@ class Ui_MainWindow(object):
 
     def QUimain(self):
 
-        err = 0 # 定义错误变量
+        err = [0,""] # 定义错误变量
 
 # 信息读取-------------------------------------------------------------------
 
@@ -258,6 +261,12 @@ class Ui_MainWindow(object):
 
         # 正则分析
         lsCode = re.findall(r"[0-9]{3,3}?", codeData)
+
+        # 写入配置文件
+        write = str(grade) + "\n" + str(aims)
+        filehandle = open("configuration.txt",'w', encoding="utf-8")
+        filehandle.write(write)
+        filehandle.close()
         
 # 考勤分析-------------------------------------------------------------------
          
@@ -286,7 +295,6 @@ class Ui_MainWindow(object):
 # 请假处理--------------------------------------------------------------------
 
         filehandle = open("StudentCode/takeLeaveCode.txt",'a', encoding="utf-8")
-        filehandle.write("none")
         filehandle.close()
         
         with open("StudentCode/takeLeaveCode.txt", encoding="utf-8") as f:
