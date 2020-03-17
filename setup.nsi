@@ -29,7 +29,7 @@ SetCompressor lzma
 !insertmacro MUI_PAGE_INSTFILES
 ; 安装完成页面
 !define MUI_FINISHPAGE_RUN "$INSTDIR\fileMaker.exe"
-!define MUI_FINISHPAGE_SHOWREADME "$INSTDIR\about.txt"
+!define MUI_FINISHPAGE_SHOWREADME "$INSTDIR\aboutAsk.txt"
 !insertmacro MUI_PAGE_FINISH
 
 ; 安装卸载过程页面
@@ -58,6 +58,7 @@ Section "必要组件" SEC01
   CreateShortCut "$SMPROGRAMS\子雨网课考勤\子雨网课考勤.lnk" "$INSTDIR\potatoAttendence.exe"
   CreateShortCut "$DESKTOP\子雨网课考勤.lnk" "$INSTDIR\potatoAttendence.exe"
   File "about.txt"
+  File "aboutAsk.txt"
   File "fileMaker.exe"
   File "logoMain.ico"
 SectionEnd
@@ -93,6 +94,7 @@ Section Uninstall
   Delete "$INSTDIR\DOS-Mode.exe"
   Delete "$INSTDIR\logoMain.ico"
   Delete "$INSTDIR\fileMaker.exe"
+  Delete "$INSTDIR\aboutAsk.txt"
   Delete "$INSTDIR\about.txt"
   Delete "$INSTDIR\potatoAttendence.exe"
 
