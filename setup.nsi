@@ -2,9 +2,9 @@
 
 ; 安装程序初始定义常量
 !define PRODUCT_NAME "子雨网课考勤"
-!define PRODUCT_VERSION "2.1.0"
+!define PRODUCT_VERSION "2.3.1"
 !define PRODUCT_PUBLISHER "PotatoStudio"
-!define PRODUCT_WEB_SITE "http://www.potatost.xyz/index.php/2020/03/05/89/"
+!define PRODUCT_WEB_SITE "https://www.potatost.xyz/index.php/2020/03/05/89/"
 !define PRODUCT_DIR_REGKEY "Software\Microsoft\Windows\CurrentVersion\App Paths\potatoAttendence.exe"
 !define PRODUCT_UNINST_KEY "Software\Microsoft\Windows\CurrentVersion\Uninstall\${PRODUCT_NAME}"
 !define PRODUCT_UNINST_ROOT_KEY "HKLM"
@@ -22,14 +22,16 @@ SetCompressor lzma
 ; 欢迎页面
 !insertmacro MUI_PAGE_WELCOME
 ; 许可协议页面
-!insertmacro MUI_PAGE_LICENSE "about.txt"
+!insertmacro MUI_PAGE_LICENSE "aboutAsk.txt"
+; 组件选择页面
+!insertmacro MUI_PAGE_COMPONENTS
 ; 安装目录选择页面
 !insertmacro MUI_PAGE_DIRECTORY
 ; 安装过程页面
 !insertmacro MUI_PAGE_INSTFILES
 ; 安装完成页面
 !define MUI_FINISHPAGE_RUN "$INSTDIR\fileMaker.exe"
-!define MUI_FINISHPAGE_SHOWREADME "$INSTDIR\aboutAsk.txt"
+!define MUI_FINISHPAGE_SHOWREADME "$INSTDIR\about.txt"
 !insertmacro MUI_PAGE_FINISH
 
 ; 安装卸载过程页面
@@ -43,27 +45,26 @@ SetCompressor lzma
 ; ------ MUI 现代界面定义结束 ------
 
 Name "${PRODUCT_NAME} ${PRODUCT_VERSION}"
-OutFile "potatoAttendenceSetup2.1.0.exe"
+OutFile "PotatoAttendenceSetup.exe"
 InstallDir "$PROGRAMFILES\PotatoStudio\potatoAttendence"
 InstallDirRegKey HKLM "${PRODUCT_UNINST_KEY}" "UninstallString"
 ShowInstDetails show
 ShowUnInstDetails show
 BrandingText "安装子雨网课考勤"
 
-Section "必要组件" SEC01
+Section "必须组件 " SEC01
   SetOutPath "$INSTDIR"
   SetOverwrite ifnewer
   File "potatoAttendence.exe"
   CreateDirectory "$SMPROGRAMS\子雨网课考勤"
   CreateShortCut "$SMPROGRAMS\子雨网课考勤\子雨网课考勤.lnk" "$INSTDIR\potatoAttendence.exe"
   CreateShortCut "$DESKTOP\子雨网课考勤.lnk" "$INSTDIR\potatoAttendence.exe"
+  File "fileMaker.exe"
   File "about.txt"
   File "aboutAsk.txt"
-  File "fileMaker.exe"
-  File "logoMain.ico"
 SectionEnd
 
-Section "DOS 版本" SEC02
+Section "dosMode" SEC02
   File "DOS-Mode.exe"
 SectionEnd
 
@@ -84,6 +85,14 @@ Section -Post
   WriteRegStr ${PRODUCT_UNINST_ROOT_KEY} "${PRODUCT_UNINST_KEY}" "Publisher" "${PRODUCT_PUBLISHER}"
 SectionEnd
 
+#-- 根据 NSIS 脚本编辑规则，所有 Function 区段必须放置在 Section 区段之后编写，以避免安装程序出现未可预知的问题。--#
+
+; 区段组件描述
+!insertmacro MUI_FUNCTION_DESCRIPTION_BEGIN
+  !insertmacro MUI_DESCRIPTION_TEXT ${SEC01} ""
+  !insertmacro MUI_DESCRIPTION_TEXT ${SEC02} ""
+!insertmacro MUI_FUNCTION_DESCRIPTION_END
+
 /******************************
  *  以下是安装程序的卸载部分  *
  ******************************/
@@ -92,10 +101,9 @@ Section Uninstall
   Delete "$INSTDIR\${PRODUCT_NAME}.url"
   Delete "$INSTDIR\uninst.exe"
   Delete "$INSTDIR\DOS-Mode.exe"
-  Delete "$INSTDIR\logoMain.ico"
-  Delete "$INSTDIR\fileMaker.exe"
   Delete "$INSTDIR\aboutAsk.txt"
   Delete "$INSTDIR\about.txt"
+  Delete "$INSTDIR\fileMaker.exe"
   Delete "$INSTDIR\potatoAttendence.exe"
 
   Delete "$SMPROGRAMS\子雨网课考勤\Uninstall.lnk"
