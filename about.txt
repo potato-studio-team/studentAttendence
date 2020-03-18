@@ -1,6 +1,6 @@
 这个小程序是由PotatoStudio工作室编写
 网址：www.potatost.xyz
-版本：2.1.0
+版本：2.3.1
 使用：potatostuser@163.com联系我们
 
 使用步骤：
